@@ -217,6 +217,18 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     }
 
     /**
+     * Get all items that are not in both collections. Opposite of intersect.
+     *
+     * @param  mixed  $items
+     * @return static
+     */
+    public function difference($items)
+    {
+        $firstDiff = array_diff($this->items, $this->getArrayableItems($items));
+        return new static(array_merge($firstDiff,array_diff($this->getArrayableItems($items), $this->items)));
+    }
+
+    /**
      * Get the items in the collection that are not present in the given items.
      *
      * @param  \Illuminate\Contracts\Support\Arrayable<array-key, TValue>|iterable<array-key, TValue>  $items
